@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
@@ -46,6 +46,7 @@ export class CourseFormComponent {
       }))
       .subscribe({
         next: () => {
+          this.form.markAsUntouched();
           this.notificationService.success('Course created successfully.');
           void this.router.navigate(['/courses']);
         },
@@ -57,5 +58,17 @@ export class CourseFormComponent {
 
   cancel(): void {
     void this.router.navigate(['/courses']);
+  }
+
+  canLeavePage(): boolean {
+    return !this.form.touched || window.confirm('Discard this course form and leave?');
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  confirmBrowserExit(event: BeforeUnloadEvent): void {
+    if (this.form.touched) {
+      event.preventDefault();
+      event.returnValue = '';
+    }
   }
 }

@@ -21,6 +21,13 @@
       "description": "test",
       "instructor": "han",
       "id": "__RI155qp0A"
+    },
+    {
+      "name": "rete",
+      "code": "fdsgdsf",
+      "description": "sdgsf",
+      "instructor": "sfgsf",
+      "id": "QDp0oxE7dco"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
