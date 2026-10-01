@@ -5,6 +5,7 @@
 /dist/
 /out-tsc/
 /coverage/
+**/*.spec.ts
 
 # Local progress notes
 /BUILD_PROGRESS.md
