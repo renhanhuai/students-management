@@ -8,11 +8,13 @@ import { StudentListComponent } from './student-list.component';
 describe('StudentListComponent', () => {
   let studentsResponse: Subject<Student[]>;
   let getStudentsSpy: jasmine.Spy;
+  let refreshStudentsSpy: jasmine.Spy;
   let showErrorSpy: jasmine.Spy;
 
   beforeEach(async () => {
     studentsResponse = new Subject<Student[]>();
     getStudentsSpy = jasmine.createSpy('getStudents').and.returnValue(studentsResponse);
+    refreshStudentsSpy = jasmine.createSpy('refreshStudents').and.returnValue(studentsResponse);
     showErrorSpy = jasmine.createSpy('error');
 
     await TestBed.configureTestingModule({
@@ -20,7 +22,10 @@ describe('StudentListComponent', () => {
       providers: [
         {
           provide: StudentService,
-          useValue: { getStudents: getStudentsSpy }
+          useValue: {
+            getStudents: getStudentsSpy,
+            refreshStudents: refreshStudentsSpy
+          }
         },
         {
           provide: NotificationService,
@@ -55,7 +60,8 @@ describe('StudentListComponent', () => {
     fixture.nativeElement.querySelector('button').click();
     fixture.detectChanges();
 
-    expect(getStudentsSpy).toHaveBeenCalledTimes(2);
+    expect(getStudentsSpy).toHaveBeenCalledTimes(1);
+    expect(refreshStudentsSpy).toHaveBeenCalledTimes(1);
     expect(fixture.nativeElement.textContent).toContain('Loading students...');
   });
 

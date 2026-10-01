@@ -21,15 +21,20 @@ export class StudentListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadStudents();
+    this.requestStudents(false);
   }
 
   loadStudents(): void {
+    this.requestStudents(true);
+  }
+
+  private requestStudents(refresh: boolean): void {
     this.isLoading = true;
     this.hasError = false;
 
-    this.studentService
-      .getStudents()
+    const studentsRequest = refresh ? this.studentService.refreshStudents() : this.studentService.getStudents();
+
+    studentsRequest
       .pipe(finalize(() => {
         this.isLoading = false;
       }))

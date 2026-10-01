@@ -1,4 +1,19 @@
 {
   "students": [],
-  "courses": []
+  "courses": [
+    {
+      "id": 1,
+      "name": "Introduction to Programming",
+      "code": "CS101",
+      "description": "Programming fundamentals, problem solving, and basic algorithms.",
+      "instructor": "Jordan Lee"
+    },
+    {
+      "id": 2,
+      "name": "Database Fundamentals",
+      "code": "CS205",
+      "description": "Relational data modeling and introductory SQL.",
+      "instructor": "Taylor Morgan"
+    }
+  ]
 }

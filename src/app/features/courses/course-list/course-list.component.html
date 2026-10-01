@@ -1,4 +1,35 @@
 <section aria-labelledby="courses-heading">
-  <h1 id="courses-heading">Courses</h1>
-  <p>Course management will be added in a later step.</p>
+  <div class="heading-row">
+    <h1 id="courses-heading">Courses</h1>
+    <button type="button" [disabled]="isLoading" (click)="refreshCourses()">
+      Refresh
+    </button>
+  </div>
+
+  @if (isLoading) {
+    <p aria-live="polite">Loading courses...</p>
+  } @else if (!hasError && courses.length === 0) {
+    <p class="empty-message">No courses are available.</p>
+  } @else if (!hasError) {
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Code</th>
+          <th scope="col">Name</th>
+          <th scope="col">Instructor</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (course of courses; track course.id) {
+          <tr>
+            <td>{{ course.code }}</td>
+            <td>{{ course.name }}</td>
+            <td>{{ course.instructor }}</td>
+            <td>{{ course.description }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
 </section>
