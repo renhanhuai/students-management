@@ -1,4 +1,33 @@
 <section aria-labelledby="students-heading">
-  <h1 id="students-heading">Students</h1>
-  <p>Student management will be added in a later step.</p>
+  <div class="heading-row">
+    <h1 id="students-heading">Students</h1>
+    <button type="button" [disabled]="isLoading" (click)="loadStudents()">
+      Refresh
+    </button>
+  </div>
+
+  @if (isLoading) {
+    <p aria-live="polite">Loading students...</p>
+  } @else if (!hasError && students.length === 0) {
+    <p class="empty-message">No students have been added yet.</p>
+  } @else if (!hasError) {
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (student of students; track student.id) {
+          <tr>
+            <td>{{ student.firstName }} {{ student.lastName }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.phone }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
 </section>
