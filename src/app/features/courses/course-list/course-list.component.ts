@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { Course } from '../../../core/models/course.model';
 import { CourseService } from '../../../core/services/course.service';
@@ -7,6 +8,7 @@ import { NotificationService } from '../../../core/services/notification.service
 @Component({
   selector: 'app-course-list',
   standalone: true,
+  imports: [RouterLink],
   templateUrl: './course-list.component.html',
   styleUrl: './course-list.component.css'
 })

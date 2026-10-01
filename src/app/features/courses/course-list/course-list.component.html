@@ -1,9 +1,12 @@
 <section aria-labelledby="courses-heading">
   <div class="heading-row">
     <h1 id="courses-heading">Courses</h1>
-    <button type="button" [disabled]="isLoading" (click)="refreshCourses()">
-      Refresh
-    </button>
+    <div class="heading-actions">
+      <button type="button" [disabled]="isLoading" (click)="refreshCourses()">
+        Refresh
+      </button>
+      <a routerLink="/courses/new">Add Course</a>
+    </div>
   </div>
 
   @if (isLoading) {

@@ -9,20 +9,31 @@ export class CourseService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(ApiService);
   private readonly coursesSubject = new BehaviorSubject<Course[]>([]);
-  private coursesRequest$: Observable<Course[]> = this.createCoursesRequest();
+  private coursesRequest$: Observable<Course[]> | null = null;
 
   readonly courses$ = this.coursesSubject.asObservable();
 
   getCourses(): Observable<Course[]> {
+    if (!this.coursesRequest$) {
+      this.coursesRequest$ = this.getCoursesRequest();
+    }
     return this.coursesRequest$;
   }
 
   refreshCourses(): Observable<Course[]> {
-    this.coursesRequest$ = this.createCoursesRequest();
+    this.coursesRequest$ = this.getCoursesRequest();
     return this.coursesRequest$;
   }
 
-  private createCoursesRequest(): Observable<Course[]> {
+  createCourse(course: Omit<Course, 'id'>): Observable<Course> {
+    return this.http.post<Course>(this.api.coursesUrl, course).pipe(
+      tap(() => {
+        this.coursesRequest$ = null;
+      })
+    );
+  }
+
+  private getCoursesRequest(): Observable<Course[]> {
     return this.http.get<Course[]>(this.api.coursesUrl).pipe(
       tap((courses) => this.coursesSubject.next(courses)),
       shareReplay({ bufferSize: 1, refCount: false })

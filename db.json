@@ -2,18 +2,26 @@
   "students": [],
   "courses": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Introduction to Programming",
       "code": "CS101",
       "description": "Programming fundamentals, problem solving, and basic algorithms.",
       "instructor": "Jordan Lee"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Database Fundamentals",
       "code": "CS205",
       "description": "Relational data modeling and introductory SQL.",
       "instructor": "Taylor Morgan"
+    },
+    {
+      "name": "test",
+      "code": "123",
+      "description": "test",
+      "instructor": "han",
+      "id": "__RI155qp0A"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
