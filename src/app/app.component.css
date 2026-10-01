@@ -1,15 +1,46 @@
-.welcome {
-  max-width: 48rem;
-  margin: 5rem auto;
-  padding: 0 1.5rem;
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1rem max(1.5rem, calc((100vw - 72rem) / 2));
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
 }
 
-h1 {
-  margin-bottom: 0.5rem;
-  font-size: 2rem;
+.brand {
+  color: #172033;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
 }
 
-p {
+nav {
+  display: flex;
+  gap: 1.25rem;
+}
+
+nav a {
+  padding: 0.5rem 0;
   color: #526079;
-  line-height: 1.6;
+  text-decoration: none;
+}
+
+nav a:hover,
+nav a.active {
+  color: #1d4ed8;
+}
+
+.page-content {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }

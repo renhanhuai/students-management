@@ -1,0 +1,13 @@
+:host {
+  display: block;
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.75rem;
+}
+
+p {
+  color: #526079;
+  line-height: 1.6;
+}

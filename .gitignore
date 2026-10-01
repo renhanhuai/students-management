@@ -6,6 +6,9 @@
 /out-tsc/
 /coverage/
 
+# Local progress notes
+/BUILD_PROGRESS.md
+
 # Angular and tooling caches
 /.angular/
 /.cache/

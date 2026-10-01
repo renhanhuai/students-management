@@ -1,4 +1,11 @@
-<main class="welcome">
-  <h1>Student Management</h1>
-  <p>The application scaffold is ready for the next development step.</p>
+<header class="app-header">
+  <a class="brand" routerLink="/">Student Management</a>
+  <nav aria-label="Main navigation">
+    <a routerLink="/students" routerLinkActive="active" ariaCurrentWhenActive="page">Students</a>
+    <a routerLink="/courses" routerLinkActive="active" ariaCurrentWhenActive="page">Courses</a>
+  </nav>
+</header>
+
+<main class="page-content">
+  <router-outlet />
 </main>
