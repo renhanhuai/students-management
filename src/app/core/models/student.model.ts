@@ -5,5 +5,5 @@ export interface Student {
   lastName: string;
   email: string;
   phone: string;
-  courseIds: Array<number | string>;
+  courseIds: string[];
 }

@@ -51,8 +51,8 @@
                 <input
                   [id]="'course-option-' + course.id"
                   type="checkbox"
-                  [checked]="form.controls.courseIds.value.includes(course.id)"
-                  (change)="toggleCourse(course.id, $event)">
+                  [checked]="isCourseSelected(course.id)"
+                  (change)="toggleCourse(course, $event)">
                 <span>{{ course.name }} ({{ course.code }})</span>
               </label>
             }

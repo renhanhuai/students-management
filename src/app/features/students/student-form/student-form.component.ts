@@ -15,6 +15,7 @@ import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only.di
   templateUrl: './student-form.component.html',
   styleUrl: './student-form.component.css',
 })
+
 export class StudentFormComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
   courses: Course[] = [];
@@ -26,7 +27,7 @@ export class StudentFormComponent implements OnInit {
     lastName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     phone: ['', [Validators.pattern(/^\d{10}$/), Validators.maxLength(10)]],
-    courseIds: this.formBuilder.nonNullable.control<Array<number | string>>([]),
+    courseIds: this.formBuilder.nonNullable.control<string[]>([]),
   });
 
   constructor(
@@ -63,10 +64,8 @@ export class StudentFormComponent implements OnInit {
           lastName: student.lastName,
           email: student.email,
           phone: student.phone,
-          courseIds: student.courseIds
+          courseIds: student.courseIds.map(String)
         });
-        this.form.markAsPristine();
-        this.form.markAsUntouched();
       },
       error: () => {
         this.notificationService.error('Unable to load this student. Please try again.');
@@ -75,12 +74,17 @@ export class StudentFormComponent implements OnInit {
     });
   }
 
-  toggleCourse(courseId: number | string, event: Event): void {
+  isCourseSelected(courseId: number | string): boolean {
+    return this.form.controls.courseIds.value.includes(String(courseId));
+  }
+
+  toggleCourse(course: Course, event: Event): void {
     const selectedCourseIds = this.form.controls.courseIds.value;
     const isSelected = (event.target as HTMLInputElement).checked;
+    const courseId = String(course.id);
     const updatedCourseIds = isSelected
       ? [...selectedCourseIds, courseId]
-      : selectedCourseIds.filter((selectedId) => String(selectedId) !== String(courseId));
+      : selectedCourseIds.filter((selectedId) => selectedId !== courseId);
 
     this.form.controls.courseIds.setValue(updatedCourseIds);
   }
