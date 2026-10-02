@@ -1,0 +1,58 @@
+<section class="student-form-page" aria-labelledby="student-form-heading">
+  <h1 id="student-form-heading">Student Details</h1>
+
+  <form [formGroup]="form" (ngSubmit)="createStudent()" novalidate>
+    <div class="form-field">
+      <label for="student-first-name">First name</label>
+      <input id="student-first-name" type="text" formControlName="firstName" autocomplete="given-name">
+      @if (form.controls.firstName.touched && form.controls.firstName.hasError('required')) {
+        <p class="field-error">First name is required.</p>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="student-last-name">Last name</label>
+      <input id="student-last-name" type="text" formControlName="lastName" autocomplete="family-name">
+      @if (form.controls.lastName.touched && form.controls.lastName.hasError('required')) {
+        <p class="field-error">Last name is required.</p>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="student-email">Email</label>
+      <input id="student-email" type="email" formControlName="email" autocomplete="email">
+      @if (form.controls.email.touched && form.controls.email.hasError('required')) {
+        <p class="field-error">Email is required.</p>
+      } @else if (form.controls.email.touched && form.controls.email.hasError('email')) {
+        <p class="field-error">Enter a valid email address.</p>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="student-phone">Phone</label>
+      <input id="student-phone" type="tel" formControlName="phone" autocomplete="tel" maxlength="10" numbersOnly >
+      @if (form.controls.phone.touched && form.controls.phone.hasError('pattern')) {
+        <p class="field-error">Enter a 10-digit phone number.</p>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="student-courses">Courses</label>
+      <select id="student-courses" formControlName="courseIds" multiple aria-describedby="student-courses-hint">
+        @for (course of courses; track course.id) {
+          <option [value]="course.id">{{ course.name }} ({{ course.code }})</option>
+        }
+      </select>
+      <p id="student-courses-hint" class="field-hint">Select the courses this student is enrolled in.</p>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="secondary-button" (click)="cancel()" [disabled]="isSaving">
+        Cancel
+      </button>
+      <button type="submit" class="primary-button" [disabled]="isSaving">
+        {{ isSaving ? 'Saving...' : 'Create Student' }}
+      </button>
+    </div>
+  </form>
+</section>

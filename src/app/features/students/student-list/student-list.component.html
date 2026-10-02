@@ -1,9 +1,12 @@
 <section aria-labelledby="students-heading">
   <div class="heading-row">
     <h1 id="students-heading">Students</h1>
-    <button type="button" [disabled]="isLoading" (click)="loadStudents()">
-      Refresh
-    </button>
+    <div class="heading-actions">
+      <button type="button" [disabled]="isLoading" (click)="loadStudents()">
+        Refresh
+      </button>
+      <a routerLink="/students/new">Add Student</a>
+    </div>
   </div>
 
   @if (isLoading) {
@@ -24,7 +27,7 @@
           <tr>
             <td>{{ student.firstName }} {{ student.lastName }}</td>
             <td>{{ student.email }}</td>
-            <td>{{ student.phone }}</td>
+            <td>{{ formatPhoneNumber(student.phone) }}</td>
           </tr>
         }
       </tbody>

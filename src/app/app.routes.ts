@@ -10,6 +10,13 @@ export const routes: Routes = [
       )
   },
   {
+    path: 'students/new',
+    loadComponent: () =>
+      import('./features/students/student-form/student-form.component').then(
+        (component) => component.StudentFormComponent
+      )
+  },
+  {
     path: 'courses/:id/edit',
     canDeactivate: [courseFormCanDeactivate],
     loadComponent: () =>

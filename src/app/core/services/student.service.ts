@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, shareReplay, tap } from 'rxjs';
+import { BehaviorSubject, Observable, of, shareReplay, tap } from 'rxjs';
 import { Student } from '../models/student.model';
 import { ApiService } from './api.service';
 
@@ -20,6 +20,18 @@ export class StudentService {
   refreshStudents(): Observable<Student[]> {
     this.studentsRequest$ = this.createStudentsRequest();
     return this.studentsRequest$;
+  }
+
+  createStudent(student: Omit<Student, 'id'>): Observable<Student> {
+    return this.http.post<Student>(this.api.studentsUrl, student).pipe(
+      tap((createdStudent) => {
+        const students = [...this.studentsSubject.value, createdStudent];
+        this.studentsSubject.next(students);
+        this.studentsRequest$ = of(students).pipe(
+          shareReplay({ bufferSize: 1, refCount: false })
+        );
+      })
+    );
   }
 
   private createStudentsRequest(): Observable<Student[]> {

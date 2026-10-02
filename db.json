@@ -1,5 +1,24 @@
 {
-  "students": [],
+  "students": [
+    {
+      "firstName": "renhan",
+      "lastName": "huai",
+      "email": "renhan.huai@icloud.com",
+      "phone": "1234567890",
+      "courseIds": [],
+      "id": "OpMLiAfD-xI"
+    },
+    {
+      "firstName": "tom",
+      "lastName": "hood",
+      "email": "tom.hood@gmail.com",
+      "phone": "2456777887",
+      "courseIds": [
+        "1"
+      ],
+      "id": "_cRRVq2-bKQ"
+    }
+  ],
   "courses": [
     {
       "name": "Introduction to Programming",
