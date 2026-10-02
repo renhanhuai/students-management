@@ -63,6 +63,29 @@ export class StudentListComponent implements OnInit {
     );
   }
 
+  deleteStudent(student: Student): void {
+    const studentId = String(student.id);
+    const confirmed = window.confirm(`Delete ${student.firstName} ${student.lastName}?`);
+    if (!confirmed) {
+      return;
+    }
+
+    this.studentService
+      .deleteStudent(studentId)
+      .subscribe({
+        next: () => {
+          this.students = this.students.filter((item) => String(item.id) !== studentId);
+          if (String(this.expandedStudentId) === studentId) {
+            this.expandedStudentId = null;
+          }
+          this.notificationService.success('Student deleted successfully.');
+        },
+        error: () => {
+          this.notificationService.error('Unable to delete student. Please try again.');
+        }
+      });
+  }
+
   private requestStudents(refresh: boolean): void {
     this.courseService.getCourses().subscribe({
       next: (courses: Course[]) => {

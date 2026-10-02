@@ -1,7 +1,7 @@
 <section class="student-form-page" aria-labelledby="student-form-heading">
-  <h1 id="student-form-heading">Student Details</h1>
+  <h1 id="student-form-heading">{{ isEdit ? 'Edit Student' : 'Create Student' }}</h1>
 
-  <form [formGroup]="form" (ngSubmit)="createStudent()" novalidate>
+  <form [formGroup]="form" (ngSubmit)="saveStudent()" novalidate>
     <div class="form-field">
       <label for="student-first-name">First name</label>
       <input id="student-first-name" type="text" formControlName="firstName" autocomplete="given-name">
@@ -63,11 +63,11 @@
     </div>
 
     <div class="form-actions">
-      <button type="button" class="secondary-button" (click)="cancel()" [disabled]="isSaving">
+      <button type="button" class="secondary-button" (click)="cancel()">
         Cancel
       </button>
-      <button type="submit" class="primary-button" [disabled]="isSaving">
-        {{ isSaving ? 'Saving...' : 'Create Student' }}
+      <button type="submit" class="primary-button">
+        {{ isEdit ? 'Save Changes' : 'Create Student' }}
       </button>
     </div>
   </form>

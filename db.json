@@ -5,7 +5,11 @@
       "lastName": "huai",
       "email": "renhan.huai@icloud.com",
       "phone": "1234567890",
-      "courseIds": [],
+      "courseIds": [
+        "1",
+        "2",
+        "ZIAKQ1AEhdU"
+      ],
       "id": "OpMLiAfD-xI"
     },
     {
@@ -25,7 +29,8 @@
       "phone": "1332424344",
       "courseIds": [
         "1",
-        "2"
+        "2",
+        "ZIAKQ1AEhdU"
       ],
       "id": "WTdhlsqjfc8"
     },

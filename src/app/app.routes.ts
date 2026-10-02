@@ -14,6 +14,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/students/student-form/student-form.component').then(
         (component) => component.StudentFormComponent
+    )
+  },
+  {
+    path: 'students/:id/edit',
+    loadComponent: () =>
+      import('./features/students/student-form/student-form.component').then(
+        (component) => component.StudentFormComponent
       )
   },
   {
