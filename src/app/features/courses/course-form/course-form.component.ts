@@ -22,8 +22,6 @@ export class CourseFormComponent implements OnInit {
     description: ['', Validators.required],
     instructor: ['', Validators.required]
   });
-  isSaving = false;
-  isLoadingCourse = false;
   courseId: string | null = null;
   isEdit: boolean = false;
 
@@ -43,12 +41,8 @@ export class CourseFormComponent implements OnInit {
   }
 
   private loadCourse(id: string): void {
-    this.isLoadingCourse = true;
     this.courseService
       .getCourseById(id)
-      .pipe(finalize(() => {
-        this.isLoadingCourse = false;
-      }))
       .subscribe({
         next: (course: Course) => {
           this.form.patchValue({
@@ -66,24 +60,16 @@ export class CourseFormComponent implements OnInit {
   }
 
   saveCourse(): void {
-    if (this.isSaving) {
-      return;
-    }
-
     this.form.markAllAsTouched();
     if (this.form.invalid) {
       return;
     }
 
-    this.isSaving = true;
     const courseRequest = this.isEdit && this.courseId
       ? this.courseService.updateCourse(this.courseId, this.form.getRawValue())
       : this.courseService.createCourse(this.form.getRawValue());
 
     courseRequest
-      .pipe(finalize(() => {
-        this.isSaving = false;
-      }))
       .subscribe({
         next: () => {
           this.form.markAsUntouched();

@@ -37,12 +37,28 @@
     </div>
 
     <div class="form-field">
-      <label for="student-courses">Courses</label>
-      <select id="student-courses" formControlName="courseIds" multiple aria-describedby="student-courses-hint">
-        @for (course of courses; track course.id) {
-          <option [value]="course.id">{{ course.name }} ({{ course.code }})</option>
-        }
-      </select>
+      <span class="field-label">Courses</span>
+      <details id="student-courses" class="course-dropdown" aria-describedby="student-courses-hint">
+        <summary>
+          Select courses ({{ form.controls.courseIds.value.length }} selected)
+        </summary>
+        <div class="course-options">
+          @if (courses.length === 0) {
+            <p>No courses are available.</p>
+          } @else {
+            @for (course of courses; track course.id) {
+              <label [for]="'course-option-' + course.id">
+                <input
+                  [id]="'course-option-' + course.id"
+                  type="checkbox"
+                  [checked]="form.controls.courseIds.value.includes(course.id)"
+                  (change)="toggleCourse(course.id, $event)">
+                <span>{{ course.name }} ({{ course.code }})</span>
+              </label>
+            }
+          }
+        </div>
+      </details>
       <p id="student-courses-hint" class="field-hint">Select the courses this student is enrolled in.</p>
     </div>
 

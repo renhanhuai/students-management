@@ -18,14 +18,13 @@ import { EnrolledCoursesComponent } from '../../../shared/components/enrolled-co
 export class StudentListComponent implements OnInit {
   students: Student[] = [];
   courses: Course[] = [];
-  isLoading = true;
-  hasError = false;
   expandedStudentId: number | string | null = null;
 
   constructor(
     private readonly studentService: StudentService,
+    private readonly courseService: CourseService,
     private readonly notificationService: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.requestStudents(false);
@@ -65,21 +64,22 @@ export class StudentListComponent implements OnInit {
   }
 
   private requestStudents(refresh: boolean): void {
-    this.isLoading = true;
-    this.hasError = false;
+    this.courseService.getCourses().subscribe({
+      next: (courses: Course[]) => {
+        this.courses = courses;
+      },
+      error: () => {
+        this.notificationService.error('Unable to load cpurses. Please try again later.');
+      }
+    })
 
     const studentsRequest = refresh ? this.studentService.refreshStudents() : this.studentService.getStudents();
 
-    studentsRequest
-      .pipe(finalize(() => {
-        this.isLoading = false;
-      }))
-      .subscribe({
-        next: (students : Student[]) => {
+    studentsRequest.subscribe({
+        next: (students: Student[]) => {
           this.students = students;
         },
         error: () => {
-          this.hasError = true;
           this.notificationService.error('Unable to load students. Please try again later.');
         }
       });

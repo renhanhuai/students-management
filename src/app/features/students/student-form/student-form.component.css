@@ -26,8 +26,12 @@ label {
   font-weight: 600;
 }
 
-input,
-select {
+.field-label {
+  font-weight: 600;
+}
+
+input:not([type='checkbox']),
+.course-dropdown {
   width: 100%;
   padding: 0.625rem 0.75rem;
   border: 1px solid #cbd5e1;
@@ -36,8 +40,27 @@ select {
   font: inherit;
 }
 
-select[multiple] {
-  min-height: 8rem;
+.course-dropdown summary {
+  cursor: pointer;
+}
+
+.course-options {
+  display: grid;
+  gap: 0.5rem;
+  max-height: 12rem;
+  margin-top: 0.75rem;
+  overflow-y: auto;
+}
+
+.course-options label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 400;
+}
+
+.course-options input[type='checkbox'] {
+  width: auto;
 }
 
 .field-error {

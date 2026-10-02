@@ -14,8 +14,6 @@ import { NotificationService } from '../../../core/services/notification.service
 })
 export class CourseListComponent implements OnInit {
   courses: Course[] = [];
-  isLoading = true;
-  hasError = false;
   deletingCourseId: string | null = null;
 
   constructor(
@@ -32,21 +30,14 @@ export class CourseListComponent implements OnInit {
   }
 
   private loadCourses(refresh: boolean): void {
-    this.isLoading = true;
-    this.hasError = false;
-
     const coursesRequest = refresh ? this.courseService.refreshCourses() : this.courseService.getCourses();
 
     coursesRequest
-      .pipe(finalize(() => {
-        this.isLoading = false;
-      }))
       .subscribe({
         next: (courses : Course[]) => {
           this.courses = courses;
         },
         error: () => {
-          this.hasError = true;
           this.notificationService.error('Unable to load courses. Please try again later.');
         }
       });

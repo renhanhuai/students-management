@@ -2,18 +2,16 @@
   <div class="heading-row">
     <h1 id="students-heading">Students</h1>
     <div class="heading-actions">
-      <button type="button" [disabled]="isLoading" (click)="loadStudents()">
+      <button type="button" (click)="loadStudents()">
         Refresh
       </button>
       <a routerLink="/students/new">Add Student</a>
     </div>
   </div>
 
-  @if (isLoading) {
-    <p aria-live="polite">Loading students...</p>
-  } @else if (!hasError && students.length === 0) {
+  @if (students.length === 0) {
     <p class="empty-message">No students have been added yet.</p>
-  } @else if (!hasError) {
+  } @else {
     <table>
       <thead>
         <tr>

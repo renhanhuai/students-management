@@ -18,6 +18,7 @@ import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only.di
 export class StudentFormComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
   courses: Course[] = [];
+  enrolledCourses: Course[] = [];
   isSaving = false;
   readonly form = this.formBuilder.nonNullable.group({
     firstName: ['', Validators.required],
@@ -32,7 +33,6 @@ export class StudentFormComponent implements OnInit {
     private readonly studentService: StudentService,
     private readonly notificationService: NotificationService,
     private readonly router: Router,
-    private readonly route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +46,16 @@ export class StudentFormComponent implements OnInit {
     });
   }
 
+  toggleCourse(courseId: number | string, event: Event): void {
+    const selectedCourseIds = this.form.controls.courseIds.value;
+    const isSelected = (event.target as HTMLInputElement).checked;
+    const updatedCourseIds = isSelected
+      ? [...selectedCourseIds, courseId]
+      : selectedCourseIds.filter((selectedId) => String(selectedId) !== String(courseId));
+
+    this.form.controls.courseIds.setValue(updatedCourseIds);
+  }
+
   createStudent(): void {
     if (this.isSaving) {
       return;
@@ -55,7 +65,6 @@ export class StudentFormComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-
     this.isSaving = true;
     this.studentService.createStudent(this.form.getRawValue())
       .pipe(finalize(() => {
