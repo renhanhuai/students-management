@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from '../../../core/models/course.model';
@@ -113,6 +113,22 @@ export class StudentFormComponent implements OnInit {
 
   cancel(): void {
     void this.router.navigate(['/students']);
+  }
+
+  canLeavePage(): boolean {
+    if (!this.form.touched) {
+      return true;
+    }
+
+    return window.confirm(`Discard this student ${this.isEdit ? 'edit' : 'create'} form and leave?`);
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  confirmBrowserExit(event: BeforeUnloadEvent): void {
+    if (this.form.touched) {
+      event.preventDefault();
+      event.returnValue = '';
+    }
   }
 
 }

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { courseFormCanDeactivate } from './features/courses/course-form/course-form.guard';
+import { studentFormCanDeactivate } from './features/students/student-form/student-form.guard';
 
 export const routes: Routes = [
   {
@@ -11,6 +12,7 @@ export const routes: Routes = [
   },
   {
     path: 'students/new',
+    canDeactivate: [studentFormCanDeactivate],
     loadComponent: () =>
       import('./features/students/student-form/student-form.component').then(
         (component) => component.StudentFormComponent
@@ -18,6 +20,7 @@ export const routes: Routes = [
   },
   {
     path: 'students/:id/edit',
+    canDeactivate: [studentFormCanDeactivate],
     loadComponent: () =>
       import('./features/students/student-form/student-form.component').then(
         (component) => component.StudentFormComponent
