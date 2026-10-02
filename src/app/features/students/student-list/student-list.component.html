@@ -15,29 +15,32 @@
     <table>
       <thead>
         <tr>
-          <th scope="col">Name</th>
+          <th scope="col" class="student-name-header">Name</th>
           <th scope="col">Email</th>
           <th scope="col">Phone</th>
-          <th scope="col">Courses</th>
           <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
         @for (student of students; track student.id) {
           <tr>
-            <td>{{ student.firstName }} {{ student.lastName }}</td>
-            <td>{{ student.email }}</td>
-            <td>{{ formatPhoneNumber(student.phone) }}</td>
             <td>
               <button
+                class="icon-button"
                 type="button"
-                class="course-toggle"
                 [attr.aria-expanded]="isExpanded(student)"
                 [attr.aria-controls]="'student-courses-' + student.id"
+                [attr.aria-label]="(isExpanded(student) ? 'Hide courses for ' : 'Show courses for ') + student.firstName + ' ' + student.lastName"
+                [title]="isExpanded(student) ? 'Hide enrolled courses' : 'Show enrolled courses'"
                 (click)="toggleCourses(student)">
-                {{ isExpanded(student) ? 'Hide courses' : 'Show courses' }}
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path [attr.d]="isExpanded(student) ? 'm6 15 6-6 6 6' : 'm6 9 6 6 6-6'" />
+                </svg>
               </button>
+              {{ student.firstName }} {{ student.lastName }}
             </td>
+            <td>{{ student.email }}</td>
+            <td>{{ formatPhoneNumber(student.phone) }}</td>
             <td class="row-actions">
               <a
                 class="icon-button"
@@ -66,7 +69,7 @@
           </tr>
           @if (isExpanded(student)) {
             <tr class="student-details-row">
-              <td colspan="5">
+              <td colspan="4">
                 <app-enrolled-courses
                   [id]="'student-courses-' + student.id"
                   [courses]="getStudentCourses(student)">

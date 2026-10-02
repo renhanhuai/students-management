@@ -6,8 +6,6 @@
       "email": "renhan.huai@icloud.com",
       "phone": "1234567890",
       "courseIds": [
-        "1",
-        "2",
         "ZIAKQ1AEhdU"
       ],
       "id": "OpMLiAfD-xI"
@@ -19,7 +17,8 @@
       "phone": "2456777887",
       "courseIds": [
         "1",
-        "2"
+        "2",
+        "ZIAKQ1AEhdU"
       ],
       "id": "_cRRVq2-bKQ"
     },
