@@ -66,6 +66,10 @@ h1 {
   white-space: nowrap;
 }
 
+.course-table tbody tr:hover {
+  background: #f8fafc;
+}
+
 .course-table th:nth-child(1),
 .course-table td:nth-child(1) {
   width: 12%;

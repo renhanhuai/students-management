@@ -20,6 +20,7 @@
           <th scope="col">Name</th>
           <th scope="col">Email</th>
           <th scope="col">Phone</th>
+          <th scope="col">Courses</th>
         </tr>
       </thead>
       <tbody>
@@ -28,7 +29,27 @@
             <td>{{ student.firstName }} {{ student.lastName }}</td>
             <td>{{ student.email }}</td>
             <td>{{ formatPhoneNumber(student.phone) }}</td>
+            <td>
+              <button
+                type="button"
+                class="course-toggle"
+                [attr.aria-expanded]="isExpanded(student)"
+                [attr.aria-controls]="'student-courses-' + student.id"
+                (click)="toggleCourses(student)">
+                {{ isExpanded(student) ? 'Hide courses' : 'Show courses' }}
+              </button>
+            </td>
           </tr>
+          @if (isExpanded(student)) {
+            <tr class="student-details-row">
+              <td colspan="4">
+                <app-enrolled-courses
+                  [id]="'student-courses-' + student.id"
+                  [courses]="getStudentCourses(student)">
+                </app-enrolled-courses>
+              </td>
+            </tr>
+          }
         }
       </tbody>
     </table>
