@@ -1,6 +1,6 @@
 /** Student record used by the student management features and mock API. */
 export interface Student {
-  id: number | string;
+  id: string;
   firstName: string;
   lastName: string;
   email: string;

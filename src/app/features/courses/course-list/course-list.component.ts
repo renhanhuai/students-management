@@ -44,7 +44,7 @@ export class CourseListComponent implements OnInit {
   }
 
   deleteCourse(course: Course): void {
-    const courseId = String(course.id);
+    const courseId = course.id;
     const confirmed = window.confirm(`Delete the course "${course.name}"?`);
     if (!confirmed) {
       return;
@@ -58,7 +58,7 @@ export class CourseListComponent implements OnInit {
       }))
       .subscribe({
         next: () => {
-          this.courses = this.courses.filter((item) => String(item.id) !== courseId);
+          this.courses = this.courses.filter((item) => item.id !== courseId);
           this.notificationService.success('Course deleted successfully.');
         },
         error: () => {

@@ -64,7 +64,7 @@ export class StudentFormComponent implements OnInit {
           lastName: student.lastName,
           email: student.email,
           phone: student.phone,
-          courseIds: student.courseIds.map(String)
+          courseIds: student.courseIds
         });
       },
       error: () => {
@@ -74,14 +74,14 @@ export class StudentFormComponent implements OnInit {
     });
   }
 
-  isCourseSelected(courseId: number | string): boolean {
-    return this.form.controls.courseIds.value.includes(String(courseId));
+  isCourseSelected(courseId: string): boolean {
+    return this.form.controls.courseIds.value.includes(courseId);
   }
 
   toggleCourse(course: Course, event: Event): void {
     const selectedCourseIds = this.form.controls.courseIds.value;
     const isSelected = (event.target as HTMLInputElement).checked;
-    const courseId = String(course.id);
+    const courseId = course.id;
     const updatedCourseIds = isSelected
       ? [...selectedCourseIds, courseId]
       : selectedCourseIds.filter((selectedId) => selectedId !== courseId);

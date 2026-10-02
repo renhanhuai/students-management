@@ -49,7 +49,7 @@ export class CourseService {
     return this.http.delete<void>(`${this.api.coursesUrl}/${id}`).pipe(
       tap(() => {
         this.coursesSubject.next(
-          this.coursesSubject.value.filter((course) => String(course.id) !== id)
+          this.coursesSubject.value.filter((course) => course.id !== id)
         );
         this.coursesRequest$ = null;
       })

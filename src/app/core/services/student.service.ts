@@ -42,7 +42,7 @@ export class StudentService {
       tap((updatedStudent) => {
         this.studentsSubject.next(
           this.studentsSubject.value.map((item) =>
-            String(item.id) === id ? updatedStudent : item
+            item.id === id ? updatedStudent : item
           )
         );
         this.studentsRequest$ = null;
@@ -54,7 +54,7 @@ export class StudentService {
     return this.http.delete<void>(`${this.api.studentsUrl}/${id}`).pipe(
       tap(() => {
         this.studentsSubject.next(
-          this.studentsSubject.value.filter((student) => String(student.id) !== id)
+          this.studentsSubject.value.filter((student) => student.id !== id)
         );
         this.studentsRequest$ = null;
       })

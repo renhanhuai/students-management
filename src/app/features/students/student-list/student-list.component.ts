@@ -18,7 +18,7 @@ import { EnrolledCoursesComponent } from '../../../shared/components/enrolled-co
 export class StudentListComponent implements OnInit {
   students: Student[] = [];
   courses: Course[] = [];
-  expandedStudentId: number | string | null = null;
+  expandedStudentId: string | null = null;
 
   constructor(
     private readonly studentService: StudentService,
@@ -59,12 +59,12 @@ export class StudentListComponent implements OnInit {
 
   getStudentCourses(student: Student): Course[] {
     return this.courses.filter((course) =>
-      student.courseIds.some((courseId) => String(courseId) === String(course.id))
+      student.courseIds.includes(course.id)
     );
   }
 
   deleteStudent(student: Student): void {
-    const studentId = String(student.id);
+    const studentId = student.id;
     const confirmed = window.confirm(`Delete ${student.firstName} ${student.lastName}?`);
     if (!confirmed) {
       return;
@@ -74,8 +74,8 @@ export class StudentListComponent implements OnInit {
       .deleteStudent(studentId)
       .subscribe({
         next: () => {
-          this.students = this.students.filter((item) => String(item.id) !== studentId);
-          if (String(this.expandedStudentId) === studentId) {
+          this.students = this.students.filter((item) => item.id !== studentId);
+          if (this.expandedStudentId === studentId) {
             this.expandedStudentId = null;
           }
           this.notificationService.success('Student deleted successfully.');
