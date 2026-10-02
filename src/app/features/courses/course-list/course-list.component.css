@@ -67,3 +67,47 @@ th {
   font-size: 0.875rem;
   font-weight: 600;
 }
+
+.row-actions {
+  white-space: nowrap;
+}
+
+.icon-button {
+  display: inline-grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-right: 0.25rem;
+  padding: 0.4rem;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  background: transparent;
+  color: #475569;
+  cursor: pointer;
+}
+
+.icon-button:hover,
+.icon-button:focus-visible {
+  border-color: #cbd5e1;
+  background: #f1f5f9;
+}
+
+.icon-button.danger {
+  color: #b42318;
+}
+
+.icon-button.danger:hover,
+.icon-button.danger:focus-visible {
+  border-color: #fecaca;
+  background: #fef2f2;
+}
+
+.icon-button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
+}

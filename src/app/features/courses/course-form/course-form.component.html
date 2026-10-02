@@ -1,6 +1,9 @@
 <section class="course-form-page" aria-labelledby="course-form-heading">
-  <h1 id="course-form-heading">Create Course</h1>
+  <h1 id="course-form-heading">{{ isEdit ? 'Edit Course' : 'Create Course' }}</h1>
 
+  @if (isLoadingCourse) {
+    <p aria-live="polite">Loading course...</p>
+  } @else {
   <form [formGroup]="form" (ngSubmit)="saveCourse()" novalidate>
     <div class="form-field">
       <label for="course-name">Course name</label>
@@ -39,8 +42,9 @@
         Cancel
       </button>
       <button type="submit" class="primary-button" [disabled]="isSaving">
-        {{ isSaving ? 'Saving...' : 'Create Course' }}
+        {{ isSaving ? 'Saving...' : (isEdit ? 'Save Changes' : 'Create Course') }}
       </button>
     </div>
   </form>
+  }
 </section>

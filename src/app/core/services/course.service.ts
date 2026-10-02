@@ -25,8 +25,20 @@ export class CourseService {
     return this.coursesRequest$;
   }
 
+  getCourseById(id: string): Observable<Course> {
+    return this.http.get<Course>(`${this.api.coursesUrl}/${id}`);
+  }
+
   createCourse(course: Omit<Course, 'id'>): Observable<Course> {
     return this.http.post<Course>(this.api.coursesUrl, course).pipe(
+      tap(() => {
+        this.coursesRequest$ = null;
+      })
+    );
+  }
+
+  updateCourse(id: string, course: Omit<Course, 'id'>): Observable<Course> {
+    return this.http.put<Course>(`${this.api.coursesUrl}/${id}`, course).pipe(
       tap(() => {
         this.coursesRequest$ = null;
       })

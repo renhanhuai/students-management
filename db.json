@@ -2,11 +2,11 @@
   "students": [],
   "courses": [
     {
-      "id": "1",
       "name": "Introduction to Programming",
       "code": "CS101",
       "description": "Programming fundamentals, problem solving, and basic algorithms.",
-      "instructor": "Jordan Lee"
+      "instructor": "Jordan Lee",
+      "id": "1"
     },
     {
       "id": "2",

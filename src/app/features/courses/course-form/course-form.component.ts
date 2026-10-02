@@ -1,7 +1,8 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs';
+import { Course } from '../../../core/models/course.model';
 import { CourseService } from '../../../core/services/course.service';
 import { NotificationService } from '../../../core/services/notification.service';
 
@@ -12,7 +13,7 @@ import { NotificationService } from '../../../core/services/notification.service
   templateUrl: './course-form.component.html',
   styleUrl: './course-form.component.css'
 })
-export class CourseFormComponent {
+export class CourseFormComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
 
   readonly form = this.formBuilder.nonNullable.group({
@@ -22,12 +23,47 @@ export class CourseFormComponent {
     instructor: ['', Validators.required]
   });
   isSaving = false;
+  isLoadingCourse = false;
+  courseId: string | null = null;
+  isEdit: boolean = false;
 
   constructor(
     private readonly courseService: CourseService,
     private readonly notificationService: NotificationService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
   ) {}
+
+  ngOnInit(): void {
+    this.courseId = this.route.snapshot.paramMap.get('id');
+    if (this.courseId) {
+      this.isEdit = true;
+      this.loadCourse(this.courseId);
+    }
+  }
+
+  private loadCourse(id: string): void {
+    this.isLoadingCourse = true;
+    this.courseService
+      .getCourseById(id)
+      .pipe(finalize(() => {
+        this.isLoadingCourse = false;
+      }))
+      .subscribe({
+        next: (course: Course) => {
+          this.form.patchValue({
+            name: course.name,
+            code: course.code,
+            description: course.description,
+            instructor: course.instructor
+          });
+        },
+        error: () => {
+          this.notificationService.error('Unable to load this course. Please try again.');
+          void this.router.navigate(['/courses']);
+        }
+      });
+  }
 
   saveCourse(): void {
     if (this.isSaving) {
@@ -40,18 +76,24 @@ export class CourseFormComponent {
     }
 
     this.isSaving = true;
-    this.courseService.createCourse(this.form.getRawValue())
+    const courseRequest = this.isEdit && this.courseId
+      ? this.courseService.updateCourse(this.courseId, this.form.getRawValue())
+      : this.courseService.createCourse(this.form.getRawValue());
+
+    courseRequest
       .pipe(finalize(() => {
         this.isSaving = false;
       }))
       .subscribe({
         next: () => {
           this.form.markAsUntouched();
-          this.notificationService.success('Course created successfully.');
+          const message = `Course ${this.isEdit ? 'updated' : 'created'} successfully.`;
+          this.notificationService.success(message);
           void this.router.navigate(['/courses']);
         },
         error: () => {
-          this.notificationService.error('Unable to create course. Please try again.');
+          const message = `Unable to ${this.isEdit ? 'update' : 'create'} course. Please try again.`;
+          this.notificationService.error(message);
         }
       });
   }
@@ -61,7 +103,10 @@ export class CourseFormComponent {
   }
 
   canLeavePage(): boolean {
-    return !this.form.touched || window.confirm('Discard this course form and leave?');
+    if (!this.form.touched) {
+      return true;
+    }
+    return window.confirm(`Discard this course ${this.isEdit ? 'edit' : 'create'} form and leave?`);
   }
 
   @HostListener('window:beforeunload', ['$event'])
