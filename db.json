@@ -17,17 +17,10 @@
     },
     {
       "name": "test",
-      "code": "123",
-      "description": "test",
+      "code": "afafd",
+      "description": "testfdvhdhsbkwbjwjnlwdnlskncskmc;sdmc;lsdmc;lsmclm;cm;elmc;emc;lfm;me;mf;m;skmd;km;sdkm;skmc;ksmk;cms;kcm;skdm;ksm;m;dkmck;",
       "instructor": "han",
-      "id": "__RI155qp0A"
-    },
-    {
-      "name": "rete",
-      "code": "fdsgdsf",
-      "description": "sdgsf",
-      "instructor": "sfgsf",
-      "id": "QDp0oxE7dco"
+      "id": "ZIAKQ1AEhdU"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

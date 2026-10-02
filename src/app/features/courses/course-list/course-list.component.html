@@ -14,7 +14,7 @@
   } @else if (!hasError && courses.length === 0) {
     <p class="empty-message">No courses are available.</p>
   } @else if (!hasError) {
-    <table>
+    <table class="course-table">
       <thead>
         <tr>
           <th scope="col">Code</th>
@@ -27,10 +27,10 @@
       <tbody>
         @for (course of courses; track course.id) {
           <tr>
-            <td>{{ course.code }}</td>
-            <td>{{ course.name }}</td>
-            <td>{{ course.instructor }}</td>
-            <td>{{ course.description }}</td>
+            <td [title]="course.code">{{ course.code }}</td>
+            <td [title]="course.name">{{ course.name }}</td>
+            <td [title]="course.instructor">{{ course.instructor }}</td>
+            <td [title]="course.description">{{ course.description }}</td>
             <td class="row-actions">
               <a
                 class="icon-button"
@@ -45,6 +45,8 @@
               <button
                 class="icon-button danger"
                 type="button"
+                [disabled]="deletingCourseId !== null"
+                (click)="deleteCourse(course)"
                 [attr.aria-label]="'Delete ' + course.name"
                 title="Delete course">
                 <svg viewBox="0 0 24 24" aria-hidden="true">

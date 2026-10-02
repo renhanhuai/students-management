@@ -16,6 +16,7 @@ export class CourseListComponent implements OnInit {
   courses: Course[] = [];
   isLoading = true;
   hasError = false;
+  deletingCourseId: string | null = null;
 
   constructor(
     private readonly courseService: CourseService,
@@ -47,6 +48,30 @@ export class CourseListComponent implements OnInit {
         error: () => {
           this.hasError = true;
           this.notificationService.error('Unable to load courses. Please try again later.');
+        }
+      });
+  }
+
+  deleteCourse(course: Course): void {
+    const courseId = String(course.id);
+    const confirmed = window.confirm(`Delete the course "${course.name}"?`);
+    if (!confirmed) {
+      return;
+    }
+
+    this.deletingCourseId = courseId;
+    this.courseService
+      .deleteCourse(courseId)
+      .pipe(finalize(() => {
+        this.deletingCourseId = null;
+      }))
+      .subscribe({
+        next: () => {
+          this.courses = this.courses.filter((item) => String(item.id) !== courseId);
+          this.notificationService.success('Course deleted successfully.');
+        },
+        error: () => {
+          this.notificationService.error('Unable to delete course. Please try again.');
         }
       });
   }

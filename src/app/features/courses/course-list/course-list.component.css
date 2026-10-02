@@ -49,17 +49,46 @@ h1 {
   line-height: 1.6;
 }
 
-table {
+.course-table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   background: #fff;
 }
 
-th,
-td {
+.course-table th,
+.course-table td {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #e2e8f0;
   text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.course-table th:nth-child(1),
+.course-table td:nth-child(1) {
+  width: 12%;
+}
+
+.course-table th:nth-child(2),
+.course-table td:nth-child(2) {
+  width: 22%;
+}
+
+.course-table th:nth-child(3),
+.course-table td:nth-child(3) {
+  width: 18%;
+}
+
+.course-table th:nth-child(4),
+.course-table td:nth-child(4) {
+  width: 38%;
+}
+
+.course-table th:nth-child(5),
+.course-table td:nth-child(5) {
+  width: 10%;
 }
 
 th {
@@ -68,8 +97,10 @@ th {
   font-weight: 600;
 }
 
-.row-actions {
+.course-table td.row-actions {
   white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
 }
 
 .icon-button {

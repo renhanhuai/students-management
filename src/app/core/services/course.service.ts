@@ -45,6 +45,17 @@ export class CourseService {
     );
   }
 
+  deleteCourse(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.api.coursesUrl}/${id}`).pipe(
+      tap(() => {
+        this.coursesSubject.next(
+          this.coursesSubject.value.filter((course) => String(course.id) !== id)
+        );
+        this.coursesRequest$ = null;
+      })
+    );
+  }
+
   private getCoursesRequest(): Observable<Course[]> {
     return this.http.get<Course[]>(this.api.coursesUrl).pipe(
       tap((courses) => this.coursesSubject.next(courses)),
