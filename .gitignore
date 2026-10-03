@@ -5,7 +5,6 @@
 **/dist/
 **/out-tsc/
 **/coverage/
-**/*.spec.ts
 /backend/target/
 
 # Local progress notes

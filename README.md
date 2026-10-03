@@ -59,3 +59,13 @@ From `frontend/`:
 ```bash
 npm run build
 ```
+
+## Run the frontend tests
+
+From `frontend/`:
+
+```bash
+npm test
+```
+
+The tests use Angular's Vitest runner with jsdom and run once without watch mode.
