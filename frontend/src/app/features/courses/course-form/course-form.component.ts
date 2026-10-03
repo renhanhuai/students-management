@@ -16,6 +16,11 @@ import { NotificationService } from '../../../core/services/notification.service
 })
 export class CourseFormComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
+  private readonly courseService = inject(CourseService);
+  private readonly confirmationService = inject(ConfirmationService);
+  private readonly notificationService = inject(NotificationService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   readonly form = this.formBuilder.nonNullable.group({
     name: ['', Validators.required],
@@ -25,14 +30,6 @@ export class CourseFormComponent implements OnInit {
   });
   courseId: string | null = null;
   isEdit: boolean = false;
-
-  constructor(
-    private readonly courseService: CourseService,
-    private readonly confirmationService: ConfirmationService,
-    private readonly notificationService: NotificationService,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute
-  ) {}
 
   ngOnInit(): void {
     this.courseId = this.route.snapshot.paramMap.get('id');

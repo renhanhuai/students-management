@@ -34,6 +34,8 @@ describe('StudentService', () => {
       }
     ];
     let actualStudents: Student[] | undefined;
+    let publishedStudents: Student[] | undefined;
+    service.students$.subscribe((students) => publishedStudents = students);
 
     service.getStudents().subscribe((students) => {
       actualStudents = students;
@@ -44,5 +46,24 @@ describe('StudentService', () => {
     request.flush(expectedStudents);
 
     expect(actualStudents).toEqual(expectedStudents);
+    expect(publishedStudents).toEqual(expectedStudents);
+  });
+
+  it('publishes the updated list after a student is deleted', () => {
+    const student: Student = {
+      id: 'student-1', firstName: 'Alex', lastName: 'Morgan',
+      email: 'alex.morgan@example.com', phone: '', courseIds: []
+    };
+    service.getStudents().subscribe();
+    httpTestingController.expectOne(TestBed.inject(ApiService).studentsUrl).flush([student]);
+
+    service.deleteStudent(student.id).subscribe();
+    const request = httpTestingController.expectOne(`${TestBed.inject(ApiService).studentsUrl}/${student.id}`);
+    expect(request.request.method).toBe('DELETE');
+    request.flush(null);
+
+    let publishedStudents: Student[] | undefined;
+    service.students$.subscribe((students) => publishedStudents = students);
+    expect(publishedStudents).toEqual([]);
   });
 });

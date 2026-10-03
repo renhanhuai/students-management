@@ -4,13 +4,6 @@ import { studentFormCanDeactivate } from './features/students/student-form/stude
 
 export const routes: Routes = [
   {
-    path: 'students',
-    loadComponent: () =>
-      import('./features/students/student-list/student-list.component').then(
-        (component) => component.StudentListComponent
-      )
-  },
-  {
     path: 'students/new',
     canDeactivate: [studentFormCanDeactivate],
     loadComponent: () =>
@@ -24,6 +17,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/students/student-form/student-form.component').then(
         (component) => component.StudentFormComponent
+      )
+  },
+  {
+    path: 'students',
+    loadComponent: () =>
+      import('./features/students/student-list/student-list.component').then(
+        (component) => component.StudentListComponent
       )
   },
   {

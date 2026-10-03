@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Course } from '../../../core/models/course.model';
 import { Student } from '../../../core/models/student.model';
@@ -11,21 +12,18 @@ import { EnrolledCoursesComponent } from '../../../shared/components/enrolled-co
 @Component({
   selector: 'app-student-list',
   standalone: true,
-  imports: [RouterLink, EnrolledCoursesComponent],
+  imports: [AsyncPipe, RouterLink, EnrolledCoursesComponent],
   templateUrl: './student-list.component.html',
   styleUrl: './student-list.component.css'
 })
 export class StudentListComponent implements OnInit {
-  students: Student[] = [];
-  courses: Course[] = [];
+  private readonly studentService = inject(StudentService);
+  private readonly courseService = inject(CourseService);
+  private readonly confirmationService = inject(ConfirmationService);
+  private readonly notificationService = inject(NotificationService);
+  readonly students$ = this.studentService.students$;
+  readonly courses$ = this.courseService.courses$;
   expandedStudentId: string | null = null;
-
-  constructor(
-    private readonly studentService: StudentService,
-    private readonly courseService: CourseService,
-    private readonly confirmationService: ConfirmationService,
-    private readonly notificationService: NotificationService
-  ) { }
 
   ngOnInit(): void {
     this.requestStudents(false);
@@ -58,8 +56,8 @@ export class StudentListComponent implements OnInit {
     return this.expandedStudentId === student.id;
   }
 
-  getStudentCourses(student: Student): Course[] {
-    return this.courses.filter((course) =>
+  getStudentCourses(student: Student, courses: Course[]): Course[] {
+    return courses.filter((course) =>
       student.courseIds.includes(course.id)
     );
   }
@@ -79,7 +77,6 @@ export class StudentListComponent implements OnInit {
       this.studentService.deleteStudent(studentId)
         .subscribe({
           next: () => {
-            this.students = this.students.filter((item) => item.id !== studentId);
             if (this.expandedStudentId === studentId) {
               this.expandedStudentId = null;
             }
@@ -94,9 +91,6 @@ export class StudentListComponent implements OnInit {
 
   private requestStudents(refresh: boolean): void {
     this.courseService.getCourses().subscribe({
-      next: (courses: Course[]) => {
-        this.courses = courses;
-      },
       error: () => {
         this.notificationService.error('Unable to load courses. Please try again later.');
       }
@@ -105,9 +99,6 @@ export class StudentListComponent implements OnInit {
     const studentsRequest = refresh ? this.studentService.refreshStudents() : this.studentService.getStudents();
 
     studentsRequest.subscribe({
-        next: (students: Student[]) => {
-          this.students = students;
-        },
         error: () => {
           this.notificationService.error('Unable to load students. Please try again later.');
         }

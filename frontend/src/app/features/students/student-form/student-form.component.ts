@@ -20,6 +20,12 @@ import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only.di
 
 export class StudentFormComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
+  private readonly courseService = inject(CourseService);
+  private readonly studentService = inject(StudentService);
+  private readonly confirmationService = inject(ConfirmationService);
+  private readonly notificationService = inject(NotificationService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   courses: Course[] = [];
   enrolledCourses: Course[] = [];
   isEdit = false;
@@ -31,15 +37,6 @@ export class StudentFormComponent implements OnInit {
     phone: ['', [Validators.pattern(/^\d{10}$/), Validators.maxLength(10)]],
     courseIds: this.formBuilder.nonNullable.control<string[]>([]),
   });
-
-  constructor(
-    private readonly courseService: CourseService,
-    private readonly studentService: StudentService,
-    private readonly confirmationService: ConfirmationService,
-    private readonly notificationService: NotificationService,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-  ) {}
 
   ngOnInit(): void {
     this.studentId = this.route.snapshot.paramMap.get('id');

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { Course } from '../../../core/models/course.model';
@@ -9,19 +10,16 @@ import { NotificationService } from '../../../core/services/notification.service
 @Component({
   selector: 'app-course-list',
   standalone: true,
-  imports: [RouterLink],
+  imports: [AsyncPipe, RouterLink],
   templateUrl: './course-list.component.html',
   styleUrl: './course-list.component.css'
 })
 export class CourseListComponent implements OnInit {
-  courses: Course[] = [];
+  private readonly courseService = inject(CourseService);
+  private readonly confirmationService = inject(ConfirmationService);
+  private readonly notificationService = inject(NotificationService);
+  readonly courses$ = this.courseService.courses$;
   deletingCourseId: string | null = null;
-
-  constructor(
-    private readonly courseService: CourseService,
-    private readonly confirmationService: ConfirmationService,
-    private readonly notificationService: NotificationService
-  ) {}
 
   ngOnInit(): void {
     this.loadCourses(false);
@@ -36,9 +34,6 @@ export class CourseListComponent implements OnInit {
 
     coursesRequest
       .subscribe({
-        next: (courses : Course[]) => {
-          this.courses = courses;
-        },
         error: () => {
           this.notificationService.error('Unable to load courses. Please try again later.');
         }
@@ -65,7 +60,6 @@ export class CourseListComponent implements OnInit {
         }))
         .subscribe({
           next: () => {
-            this.courses = this.courses.filter((item) => item.id !== courseId);
             this.notificationService.success('Course deleted successfully.');
           },
           error: () => {
