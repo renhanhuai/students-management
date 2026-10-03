@@ -1,0 +1,107 @@
+.student-form-page {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+h1 {
+  margin: 0 0 1.5rem;
+  font-size: 1.75rem;
+}
+
+form {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  background: #fff;
+}
+
+.form-field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+label {
+  font-weight: 600;
+}
+
+.field-label {
+  font-weight: 600;
+}
+
+input:not([type='checkbox']),
+.course-dropdown {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.25rem;
+  color: #172033;
+  font: inherit;
+}
+
+.course-dropdown summary {
+  cursor: pointer;
+}
+
+.course-options {
+  display: grid;
+  gap: 0.5rem;
+  max-height: 12rem;
+  margin-top: 0.75rem;
+  overflow-y: auto;
+}
+
+.course-options label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 400;
+}
+
+.course-options input[type='checkbox'] {
+  width: auto;
+}
+
+.field-error {
+  margin: 0;
+  color: #b42318;
+  font-size: 0.875rem;
+}
+
+.field-hint {
+  margin: 0;
+  color: #475569;
+  font-size: 0.875rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.form-actions button {
+  padding: 0.625rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font: inherit;
+}
+
+.form-actions button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.form-actions .secondary-button {
+  border-color: #cbd5e1;
+  background: #fff;
+  color: #172033;
+}
+
+.primary-button {
+  background: #1d4ed8;
+  color: #fff;
+}
