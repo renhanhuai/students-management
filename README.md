@@ -4,7 +4,7 @@ This repository contains an Angular frontend and two interchangeable backends: a
 
 ## Run with the JSON Server mock
 
-Make sure `frontend/src/app/core/services/api.service.ts` uses `http://localhost:3000` as its API base URL.
+Make sure `frontend/src/app/core/services/api.service.ts` uses jsonUrl `http://localhost:3000` as its API base URL.
 
 In one terminal:
 
@@ -25,7 +25,13 @@ Open `http://localhost:4200`. The mock API loads data from `frontend/db.json` an
 
 ## Run with the Java backend
 
-Change the API base URL in `frontend/src/app/core/services/api.service.ts` to `http://localhost:8080`.
+Change the API base URL in `frontend/src/app/core/services/api.service.ts` to javaUrl `http://localhost:8080`.
+
+Install Java 21+ and Maven 3.6.3+ if they are not already installed. On macOS with Homebrew, install Maven with:
+
+```bash
+brew install maven
+```
 
 In one terminal:
 

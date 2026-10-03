@@ -57,13 +57,6 @@
       "code": "CS205",
       "description": "Relational data modeling and introductory SQL.",
       "instructor": "Taylor Morgan"
-    },
-    {
-      "name": "test",
-      "code": "afafd",
-      "description": "testfdvhdhsbkwbjwjnlwdnlskncskmc;sdmc;lsdmc;lsmclm;cm;elmc;emc;lfm;me;mf;m;skmd;km;sdkm;skmc;ksmk;cms;kcm;skdm;ksm;m;dkmck;",
-      "instructor": "han",
-      "id": "ZIAKQ1AEhdU"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

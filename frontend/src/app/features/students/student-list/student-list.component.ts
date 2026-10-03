@@ -98,7 +98,7 @@ export class StudentListComponent implements OnInit {
         this.courses = courses;
       },
       error: () => {
-        this.notificationService.error('Unable to load cpurses. Please try again later.');
+        this.notificationService.error('Unable to load courses. Please try again later.');
       }
     })
 
