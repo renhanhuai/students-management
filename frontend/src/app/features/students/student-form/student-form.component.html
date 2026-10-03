@@ -40,7 +40,7 @@
       <span class="field-label">Courses</span>
       <details id="student-courses" class="course-dropdown" aria-describedby="student-courses-hint">
         <summary>
-          Select courses ({{ form.controls.courseIds.value.length }} selected)
+          Select courses ({{ selectedCourseCount }} selected)
         </summary>
         <div class="course-options">
           @if (courses.length === 0) {
