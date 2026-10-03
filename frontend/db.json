@@ -6,19 +6,21 @@
       "email": "renhan.huai@icloud.com",
       "phone": "1234567890",
       "courseIds": [
-        "ZIAKQ1AEhdU"
+        "1",
+        "2",
+        "3",
+        "4"
       ],
       "id": "OpMLiAfD-xI"
     },
     {
       "firstName": "Joy",
       "lastName": "Liu",
-      "email": "jot.liu@gmail.com",
+      "email": "joy.liu@gmail.com",
       "phone": "2456777887",
       "courseIds": [
         "1",
-        "2",
-        "ZIAKQ1AEhdU"
+        "2"
       ],
       "id": "_cRRVq2-bKQ"
     },
@@ -42,6 +44,27 @@
       "description": "Programming fundamentals, problem solving, and basic algorithms.",
       "instructor": "Jordan Lee",
       "id": "1"
+    },
+    {
+      "name": "Database Fundamentals",
+      "code": "CS205",
+      "description": "Relational data modeling, SQL, and database design fundamentals.",
+      "instructor": "Taylor Morgan",
+      "id": "2"
+    },
+    {
+      "name": "Web Development",
+      "code": "CS220",
+      "description": "Build accessible web applications with modern HTML, CSS, and JavaScript.",
+      "instructor": "Casey Patel",
+      "id": "3"
+    },
+    {
+      "name": "Data Structures",
+      "code": "CS201",
+      "description": "Core data structures, algorithmic complexity, and problem-solving techniques.",
+      "instructor": "Avery Chen",
+      "id": "4"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
