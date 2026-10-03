@@ -1,40 +1,54 @@
 # Student Management
 
-An Angular 20 standalone application scaffold for the Student Management take-home assignment. The Students and Courses pages are currently placeholders; application features will be added incrementally.
+This repository contains an Angular frontend and two interchangeable backends: a JSON Server mock and a Spring Boot API using H2.
 
-## Prerequisites
+## Run with the JSON Server mock
 
-- Node.js 20.19+ or 22.12+
-- npm 10+
+Make sure `frontend/src/app/core/services/api.service.ts` uses `http://localhost:3000` as its API base URL.
 
-## Setup
-
-Install dependencies from the project root:
+In one terminal:
 
 ```bash
+cd frontend
 npm install
-```
-
-Start the Angular development server in one terminal:
-
-```bash
 npm start
 ```
 
-Open `http://localhost:4200` in your browser.
-
-Start the mock API in a second terminal:
+In a second terminal:
 
 ```bash
+cd frontend
 npm run api
 ```
 
-JSON Server serves the empty collections from `db.json` at:
+Open `http://localhost:4200`. The mock API loads data from `frontend/db.json` and serves `/students` and `/courses` on port `3000`.
 
-- `http://localhost:3000/students`
-- `http://localhost:3000/courses`
+## Run with the Java backend
 
-## Other commands
+Change the API base URL in `frontend/src/app/core/services/api.service.ts` to `http://localhost:8080`.
+
+In one terminal:
+
+```bash
+cd backend
+mvn spring-boot:run
+```
+
+In a second terminal:
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+Open `http://localhost:4200`. The Java API serves `/students` and `/courses` and stores data in a file-backed H2 database. Java 21+ and Maven 3.6.3+ are required.
+
+The H2 console is available at `http://localhost:8080/h2-console` while the backend is running. Use JDBC URL `jdbc:h2:file:./data/student-management`, username `sa`, and a blank password. The database files are created under `backend/data/` when you start Spring Boot from `backend/`.
+
+## Build the frontend
+
+From `frontend/`:
 
 ```bash
 npm run build

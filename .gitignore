@@ -1,17 +1,17 @@
 # Dependencies
-/node_modules/
+**/node_modules/
 
 # Build output
-/dist/
-/out-tsc/
-/coverage/
+**/dist/
+**/out-tsc/
+**/coverage/
 **/*.spec.ts
 
 # Local progress notes
 /BUILD_PROGRESS.md
 
 # Angular and tooling caches
-/.angular/
+**/.angular/
 /.cache/
 
 # Logs
