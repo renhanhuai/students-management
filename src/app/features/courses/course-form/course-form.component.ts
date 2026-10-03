@@ -1,9 +1,10 @@
 import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { finalize } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Course } from '../../../core/models/course.model';
 import { CourseService } from '../../../core/services/course.service';
+import { ConfirmationService } from '../../../core/services/confirmation.service';
 import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
@@ -27,6 +28,7 @@ export class CourseFormComponent implements OnInit {
 
   constructor(
     private readonly courseService: CourseService,
+    private readonly confirmationService: ConfirmationService,
     private readonly notificationService: NotificationService,
     private readonly router: Router,
     private readonly route: ActivatedRoute
@@ -88,11 +90,18 @@ export class CourseFormComponent implements OnInit {
     void this.router.navigate(['/courses']);
   }
 
-  canLeavePage(): boolean {
+  canLeavePage(): Observable<boolean> {
     if (!this.form.touched) {
-      return true;
+      return of(true);
     }
-    return window.confirm(`Discard this course ${this.isEdit ? 'edit' : 'create'} form and leave?`);
+
+    return this.confirmationService.confirm({
+      title: 'Confirmation',
+      message: `Discard this course ${this.isEdit ? 'edit' : 'create'} form and leave?`,
+      confirmLabel: 'Leave page',
+      cancelLabel: 'Continue editing',
+      destructive: true
+    });
   }
 
   @HostListener('window:beforeunload', ['$event'])

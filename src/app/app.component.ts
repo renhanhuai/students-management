@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NotificationPopupComponent } from './shared/components/notification-popup/notification-popup.component';
 import { LoadingOverlayComponent } from './shared/components/loading-overlay/loading-overlay.component';
+import { ConfirmationDialogComponent } from './shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, RouterOutlet, NotificationPopupComponent, LoadingOverlayComponent],
+  imports: [RouterLink, RouterLinkActive, RouterOutlet, NotificationPopupComponent, LoadingOverlayComponent, ConfirmationDialogComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { Course } from '../../../core/models/course.model';
 import { CourseService } from '../../../core/services/course.service';
+import { ConfirmationService } from '../../../core/services/confirmation.service';
 import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
@@ -18,6 +19,7 @@ export class CourseListComponent implements OnInit {
 
   constructor(
     private readonly courseService: CourseService,
+    private readonly confirmationService: ConfirmationService,
     private readonly notificationService: NotificationService
   ) {}
 
@@ -45,25 +47,31 @@ export class CourseListComponent implements OnInit {
 
   deleteCourse(course: Course): void {
     const courseId = course.id;
-    const confirmed = window.confirm(`Delete the course "${course.name}"?`);
-    if (!confirmed) {
-      return;
-    }
+    this.confirmationService.confirm({
+      title: 'Confirmation',
+      message: `Delete "${course.name}"? This action cannot be undone.`,
+      confirmLabel: 'Delete course',
+      destructive: true
+    }).subscribe((confirmed) => {
+      if (!confirmed) {
+        return;
+      }
 
-    this.deletingCourseId = courseId;
-    this.courseService
-      .deleteCourse(courseId)
-      .pipe(finalize(() => {
-        this.deletingCourseId = null;
-      }))
-      .subscribe({
-        next: () => {
-          this.courses = this.courses.filter((item) => item.id !== courseId);
-          this.notificationService.success('Course deleted successfully.');
-        },
-        error: () => {
-          this.notificationService.error('Unable to delete course. Please try again.');
-        }
+      this.deletingCourseId = courseId;
+      this.courseService
+        .deleteCourse(courseId)
+        .pipe(finalize(() => {
+          this.deletingCourseId = null;
+        }))
+        .subscribe({
+          next: () => {
+            this.courses = this.courses.filter((item) => item.id !== courseId);
+            this.notificationService.success('Course deleted successfully.');
+          },
+          error: () => {
+            this.notificationService.error('Unable to delete course. Please try again.');
+          }
+        });
       });
   }
 }

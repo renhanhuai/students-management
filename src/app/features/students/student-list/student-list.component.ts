@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { finalize } from 'rxjs';
 import { Course } from '../../../core/models/course.model';
 import { Student } from '../../../core/models/student.model';
 import { CourseService } from '../../../core/services/course.service';
+import { ConfirmationService } from '../../../core/services/confirmation.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import { StudentService } from '../../../core/services/student.service';
 import { EnrolledCoursesComponent } from '../../../shared/components/enrolled-courses/enrolled-courses.component';
@@ -23,6 +23,7 @@ export class StudentListComponent implements OnInit {
   constructor(
     private readonly studentService: StudentService,
     private readonly courseService: CourseService,
+    private readonly confirmationService: ConfirmationService,
     private readonly notificationService: NotificationService
   ) { }
 
@@ -65,24 +66,29 @@ export class StudentListComponent implements OnInit {
 
   deleteStudent(student: Student): void {
     const studentId = student.id;
-    const confirmed = window.confirm(`Delete ${student.firstName} ${student.lastName}?`);
-    if (!confirmed) {
-      return;
-    }
+    this.confirmationService.confirm({
+      title: 'Confirmation',
+      message: `Delete ${student.firstName} ${student.lastName}? This action cannot be undone.`,
+      confirmLabel: 'Delete student',
+      destructive: true
+    }).subscribe((confirmed) => {
+      if (!confirmed) {
+        return;
+      }
 
-    this.studentService
-      .deleteStudent(studentId)
-      .subscribe({
-        next: () => {
-          this.students = this.students.filter((item) => item.id !== studentId);
-          if (this.expandedStudentId === studentId) {
-            this.expandedStudentId = null;
+      this.studentService.deleteStudent(studentId)
+        .subscribe({
+          next: () => {
+            this.students = this.students.filter((item) => item.id !== studentId);
+            if (this.expandedStudentId === studentId) {
+              this.expandedStudentId = null;
+            }
+            this.notificationService.success('Student deleted successfully.');
+          },
+          error: () => {
+            this.notificationService.error('Unable to delete student. Please try again.');
           }
-          this.notificationService.success('Student deleted successfully.');
-        },
-        error: () => {
-          this.notificationService.error('Unable to delete student. Please try again.');
-        }
+        });
       });
   }
 

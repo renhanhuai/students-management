@@ -1,0 +1,26 @@
+@if (confirmationService.confirmation$ | async; as confirmation) {
+  <div class="confirmation-backdrop" (click)="close(false)">
+    <section
+      class="confirmation-dialog"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="confirmation-title"
+      aria-describedby="confirmation-message"
+      (click)="$event.stopPropagation()">
+      <h2 id="confirmation-title">{{ confirmation.title }}</h2>
+      <p id="confirmation-message">{{ confirmation.message }}</p>
+      <div class="confirmation-actions">
+        <button type="button" class="cancel-button" (click)="close(false)" autofocus>
+          {{ confirmation.cancelLabel ?? 'Cancel' }}
+        </button>
+        <button
+          type="button"
+          class="confirm-button"
+          [class.destructive]="confirmation.destructive"
+          (click)="close(true)">
+          {{ confirmation.confirmLabel ?? 'Confirm' }}
+        </button>
+      </div>
+    </section>
+  </div>
+}

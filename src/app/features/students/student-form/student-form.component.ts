@@ -1,9 +1,11 @@
 import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
 import { Course } from '../../../core/models/course.model';
 import { Student } from '../../../core/models/student.model';
 import { CourseService } from '../../../core/services/course.service';
+import { ConfirmationService } from '../../../core/services/confirmation.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import { StudentService } from '../../../core/services/student.service';
 import { NumbersOnlyDirective } from '../../../shared/directives/numbers-only.directive';
@@ -33,6 +35,7 @@ export class StudentFormComponent implements OnInit {
   constructor(
     private readonly courseService: CourseService,
     private readonly studentService: StudentService,
+    private readonly confirmationService: ConfirmationService,
     private readonly notificationService: NotificationService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
@@ -115,12 +118,18 @@ export class StudentFormComponent implements OnInit {
     void this.router.navigate(['/students']);
   }
 
-  canLeavePage(): boolean {
+  canLeavePage(): Observable<boolean> {
     if (!this.form.touched) {
-      return true;
+      return of(true);
     }
 
-    return window.confirm(`Discard this student ${this.isEdit ? 'edit' : 'create'} form and leave?`);
+    return this.confirmationService.confirm({
+      title: 'Confirmation',
+      message: `Discard this student ${this.isEdit ? 'edit' : 'create'} form and leave?`,
+      confirmLabel: 'Leave page',
+      cancelLabel: 'Continue editing',
+      destructive: true
+    });
   }
 
   @HostListener('window:beforeunload', ['$event'])
