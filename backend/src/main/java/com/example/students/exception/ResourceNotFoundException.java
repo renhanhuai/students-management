@@ -1,4 +1,4 @@
-package com.example.students.controller;
+package com.example.students.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String resource, String id) {

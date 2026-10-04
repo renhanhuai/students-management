@@ -2,7 +2,7 @@ package com.example.students.controller;
 
 import com.example.students.model.Course;
 import com.example.students.model.CourseRequest;
-import com.example.students.repository.CourseRepository;
+import com.example.students.service.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,38 +12,36 @@ import java.util.List;
 @RestController
 @RequestMapping("/courses")
 public class CourseController {
-    private final CourseRepository courses;
+    private final CourseService courses;
 
-    public CourseController(CourseRepository courses) {
+    public CourseController(CourseService courses) {
         this.courses = courses;
     }
 
     @GetMapping
     public List<Course> list() {
-        return courses.findAll();
+        return courses.list();
     }
 
     @GetMapping("/{id}")
     public Course get(@PathVariable String id) {
-        return courses.findById(id).orElseThrow(() -> new ResourceNotFoundException("Course", id));
+        return courses.get(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Course create(@Valid @RequestBody CourseRequest request) {
-        return courses.save(new Course(request.name(), request.code(), request.description(), request.instructor()));
+        return courses.create(request);
     }
 
     @PutMapping("/{id}")
     public Course update(@PathVariable String id, @Valid @RequestBody CourseRequest request) {
-        Course course = courses.findById(id).orElseThrow(() -> new ResourceNotFoundException("Course", id));
-        course.update(request.name(), request.code(), request.description(), request.instructor());
-        return courses.save(course);
+        return courses.update(id, request);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
-        courses.delete(courses.findById(id).orElseThrow(() -> new ResourceNotFoundException("Course", id)));
+        courses.delete(id);
     }
 }

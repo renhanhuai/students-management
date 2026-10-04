@@ -1,5 +1,6 @@
 package com.example.students.controller;
 
+import com.example.students.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
