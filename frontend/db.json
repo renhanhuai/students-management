@@ -4,7 +4,7 @@
       "firstName": "renhan",
       "lastName": "huai",
       "email": "renhan.huai@icloud.com",
-      "phone": "1234567890",
+      "phone": "0034567890",
       "courseIds": [
         "1",
         "3",
@@ -34,6 +34,16 @@
         "ZIAKQ1AEhdU"
       ],
       "id": "WTdhlsqjfc8"
+    },
+    {
+      "firstName": "Julia",
+      "lastName": "Sea",
+      "email": "Julia.sea@icloud.com",
+      "phone": "4992228889",
+      "courseIds": [
+        "3"
+      ],
+      "id": "_KUXdVosgI8"
     }
   ],
   "courses": [
@@ -64,6 +74,13 @@
       "description": "Core data structures, algorithmic complexity, and problem-solving techniques.",
       "instructor": "Avery Chen",
       "id": "4"
+    },
+    {
+      "name": "Test101",
+      "code": "131",
+      "description": "Test course",
+      "instructor": "Sam Hood",
+      "id": "uonuo1bprgU"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

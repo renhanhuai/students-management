@@ -15,13 +15,13 @@ export class StudentService {
 
   getStudents(): Observable<Student[]> {
     if (!this.studentsRequest$) {
-      this.studentsRequest$ = this.createStudentsRequest();
+      this.studentsRequest$ = this.getStudentsRequest();
     }
     return this.studentsRequest$;
   }
 
   refreshStudents(): Observable<Student[]> {
-    this.studentsRequest$ = this.createStudentsRequest();
+    this.studentsRequest$ = this.getStudentsRequest();
     return this.studentsRequest$;
   }
 
@@ -35,12 +35,7 @@ export class StudentService {
 
   updateStudent(id: string, student: Omit<Student, 'id'>): Observable<Student> {
     return this.http.put<Student>(`${this.api.studentsUrl}/${id}`, student).pipe(
-      tap((updatedStudent) => {
-        this.studentsSubject.next(
-          this.studentsSubject.value.map((item) =>
-            item.id === id ? updatedStudent : item
-          )
-        );
+      tap(() => {
         this.studentsRequest$ = null;
       })
     );
@@ -57,7 +52,7 @@ export class StudentService {
     );
   }
 
-  private createStudentsRequest(): Observable<Student[]> {
+  private getStudentsRequest(): Observable<Student[]> {
     return this.http.get<Student[]>(this.api.studentsUrl).pipe(
       tap((students) => this.studentsSubject.next(students)),
       shareReplay({ bufferSize: 1, refCount: false })
