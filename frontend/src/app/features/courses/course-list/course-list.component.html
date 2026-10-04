@@ -44,7 +44,6 @@
                 <button
                   class="icon-button danger"
                   type="button"
-                  [disabled]="deletingCourseId !== null"
                   (click)="deleteCourse(course)"
                   [attr.aria-label]="'Delete ' + course.name"
                   title="Delete course">

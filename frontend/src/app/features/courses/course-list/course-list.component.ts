@@ -52,12 +52,8 @@ export class CourseListComponent implements OnInit {
         return;
       }
 
-      this.deletingCourseId = courseId;
       this.courseService
         .deleteCourse(courseId)
-        .pipe(finalize(() => {
-          this.deletingCourseId = null;
-        }))
         .subscribe({
           next: () => {
             this.notificationService.success('Course deleted successfully.');
