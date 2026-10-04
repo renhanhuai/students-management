@@ -1,8 +1,7 @@
 import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { Course } from '../../../core/models/course.model';
+import { Observable, of, take } from 'rxjs';
 import { CourseService } from '../../../core/services/course.service';
 import { ConfirmationService } from '../../../core/services/confirmation.service';
 import { NotificationService } from '../../../core/services/notification.service';
@@ -35,15 +34,21 @@ export class CourseFormComponent implements OnInit {
     this.courseId = this.route.snapshot.paramMap.get('id');
     if (this.courseId) {
       this.isEdit = true;
-      this.loadCourse(this.courseId);
+      this.loadCourseFromCache(this.courseId);
     }
   }
 
-  private loadCourse(id: string): void {
+  private loadCourseFromCache(id: string): void {
     this.courseService
-      .getCourseById(id)
+      .courses$
+      .pipe(take(1))
       .subscribe({
-        next: (course: Course) => {
+        next: (courses) => {
+          const course = courses.find((item) => item.id === id);
+          if (!course) {
+            void this.router.navigate(['/courses']);
+            return;
+          }
           this.form.patchValue({
             name: course.name,
             code: course.code,
@@ -51,10 +56,6 @@ export class CourseFormComponent implements OnInit {
             instructor: course.instructor
           });
         },
-        error: () => {
-          this.notificationService.error('Unable to load this course. Please try again.');
-          void this.router.navigate(['/courses']);
-        }
       });
   }
 

@@ -25,10 +25,6 @@ export class CourseService {
     return this.coursesRequest$;
   }
 
-  getCourseById(id: string): Observable<Course> {
-    return this.http.get<Course>(`${this.api.coursesUrl}/${id}`);
-  }
-
   createCourse(course: Omit<Course, 'id'>): Observable<Course> {
     return this.http.post<Course>(this.api.coursesUrl, course).pipe(
       tap(() => {

@@ -45,10 +45,4 @@ describe('CourseService', () => {
     http.expectOne(TestBed.inject(ApiService).coursesUrl).flush([course]);
   });
 
-  it('gets a course by id', () => {
-    service.getCourseById('course-1').subscribe();
-    const request = http.expectOne(`${TestBed.inject(ApiService).coursesUrl}/course-1`);
-    expect(request.request.method).toBe('GET');
-    request.flush(course);
-  });
 });

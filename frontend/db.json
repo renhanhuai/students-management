@@ -7,7 +7,6 @@
       "phone": "1234567890",
       "courseIds": [
         "1",
-        "2",
         "3",
         "4"
       ],
@@ -39,7 +38,7 @@
   ],
   "courses": [
     {
-      "name": "Introduction to Programming",
+      "name": "Test Introduction to Programming",
       "code": "CS101",
       "description": "Programming fundamentals, problem solving, and basic algorithms.",
       "instructor": "Jordan Lee",

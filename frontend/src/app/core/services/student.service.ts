@@ -25,10 +25,6 @@ export class StudentService {
     return this.studentsRequest$;
   }
 
-  getStudentById(id: string): Observable<Student> {
-    return this.http.get<Student>(`${this.api.studentsUrl}/${id}`);
-  }
-
   createStudent(student: Omit<Student, 'id'>): Observable<Student> {
     return this.http.post<Student>(this.api.studentsUrl, student).pipe(
       tap(() => {

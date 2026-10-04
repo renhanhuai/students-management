@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of, take } from 'rxjs';
 import { Course } from '../../../core/models/course.model';
 import { CourseService } from '../../../core/services/course.service';
 import { ConfirmationService } from '../../../core/services/confirmation.service';
@@ -61,10 +61,15 @@ export class StudentFormComponent implements OnInit {
 
   private loadStudentAndCourses(id: string): void {
     forkJoin({
-      student: this.studentService.getStudentById(id),
+      students: this.studentService.students$.pipe(take(1)),
       courses: this.courseService.getCourses()
     }).subscribe({
-      next: ({ student, courses }) => {
+      next: ({ students, courses }) => {
+        const student = students.find((item) => item.id === id);
+        if (!student) {
+          void this.router.navigate(['/students']);
+          return;
+        }
         this.courses = courses;
         this.form.patchValue({
           firstName: student.firstName,
